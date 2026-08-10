@@ -1,8 +1,0 @@
-{
-  "name": "Entice HR Solutions",
-  "description": "Apple-style minimal B2B website for Entice HR Solutions providing recruitment, executive search, payroll, and consulting for growing companies.",
-  "requestFramePermissions": [],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}
