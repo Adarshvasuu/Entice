@@ -248,6 +248,15 @@ const TiltServiceCard: React.FC<TiltServiceCardProps> = ({ title, desc, bullets,
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`View details: ${title}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       style={{
         rotateX,
         rotateY,
@@ -255,7 +264,7 @@ const TiltServiceCard: React.FC<TiltServiceCardProps> = ({ title, desc, bullets,
         transformStyle: 'preserve-3d',
         background: 'linear-gradient(135deg, #063091 0%, #0F67FF 55%, #2E86FF 100%)',
       }}
-      className="group relative rounded-[2.25rem] overflow-hidden p-10 sm:p-14 text-white cursor-pointer shadow-xl shadow-[#0066FF]/20 hover:shadow-[0_30px_70px_-15px_rgba(15,103,255,0.55)] transition-shadow duration-500 border border-white/10"
+      className="group relative rounded-[2.25rem] overflow-hidden p-10 sm:p-14 text-white cursor-pointer shadow-xl shadow-[#0066FF]/20 hover:shadow-[0_30px_70px_-15px_rgba(15,103,255,0.55)] transition-shadow duration-500 border border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F67FF]"
     >
       <motion.div className="absolute inset-0 rounded-[2rem] pointer-events-none z-20" style={{ opacity: glareOpacity, background: glareBackground }} />
       <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 group-hover:scale-125 transition-all duration-500 pointer-events-none" />
