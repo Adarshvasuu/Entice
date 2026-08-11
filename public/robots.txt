@@ -1,0 +1,6 @@
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Allow: /
+
+Sitemap: https://entice-brown.vercel.app/sitemap.xml
