@@ -33,6 +33,7 @@ export const WhatsAppWidget: React.FC = () => {
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
+                aria-label="Close chat"
                 className="p-1 rounded-full hover:bg-white/10 text-white/80 hover:text-white"
               >
                 <X className="w-4 h-4" />
@@ -76,15 +77,16 @@ export const WhatsAppWidget: React.FC = () => {
       {/* Trigger Button & Status Pill */}
       <div className="flex items-center gap-3">
         {!isOpen && (
-          <motion.div 
+          <motion.button 
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             className="hidden sm:flex bg-white shadow-xl px-4 py-3 rounded-2xl items-center gap-2.5 border border-gray-100 cursor-pointer"
             onClick={() => setIsOpen(true)}
+            aria-label="Open WhatsApp chat: Ready to hire?"
           >
             <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
             <span className="text-xs font-semibold text-gray-600">Ready to hire?</span>
-          </motion.div>
+          </motion.button>
         )}
 
         <motion.button
@@ -92,7 +94,7 @@ export const WhatsAppWidget: React.FC = () => {
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsOpen(!isOpen)}
           className="relative group w-14 h-14 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/30 flex items-center justify-center focus:outline-none shrink-0"
-          aria-label="Contact on WhatsApp"
+          aria-label={isOpen ? 'Close WhatsApp chat' : 'Contact on WhatsApp'}
         >
           <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
