@@ -78,6 +78,7 @@ export const LeadModal: React.FC<LeadModalProps> = ({ isOpen, onClose, defaultSe
           {/* Close button */}
           <button 
             onClick={onClose}
+            aria-label="Close proposal request form"
             className="absolute top-5 right-5 p-2.5 rounded-full bg-[#F5F5F7] text-[#1D1D1F] hover:bg-black/10 transition-colors z-20"
           >
             <X className="w-5 h-5" />
