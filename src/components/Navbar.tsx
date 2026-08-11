@@ -207,7 +207,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               className={`lg:hidden p-2 rounded-2xl transition-colors relative z-10 ${
                 isOverHero ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-white/50 text-[#1D1D1F] hover:bg-white/80'
               }`}
-              aria-label="Toggle Navigation Menu"
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              aria-expanded={mobileMenuOpen}
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
