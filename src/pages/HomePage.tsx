@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValue } from 'motion/react';
 import { 
   ArrowRight, ArrowUpRight, Users, Crown, Receipt, ShieldCheck, GraduationCap, 
-  Sparkles, ChevronRight, TrendingUp, Shield
+  Sparkles, ChevronRight, ChevronDown, TrendingUp, Shield
 } from 'lucide-react';
 import { TESTIMONIALS } from '../data/content';
 import { ROICalculator } from '../components/ROICalculator';
@@ -365,7 +365,98 @@ const CinematicFeatureCard = ({ title, desc, icon }: { title: string, desc: stri
   );
 };
 
-// New Isolated Mobile "Why Entice" Feature Card
+// FAQ Card — identical glass + tilt/glare recipe as CinematicFeatureCard above
+// (same 35deg tilt range, same glare gradient, same translateZ content lift),
+// adapted into an accordion so the answer expands/collapses on click.
+const FAQCard = ({
+  question,
+  answer,
+  isOpen,
+  onToggle,
+}: {
+  question: string;
+  answer: string;
+  isOpen: boolean;
+  onToggle: () => void;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const rotateXRaw = useMotionValue(0);
+  const rotateYRaw = useMotionValue(0);
+  const glareX = useMotionValue(50);
+  const glareY = useMotionValue(50);
+  const glareOpacity = useMotionValue(0);
+
+  const rotateX = useSpring(rotateXRaw, { stiffness: 150, damping: 20 });
+  const rotateY = useSpring(rotateYRaw, { stiffness: 150, damping: 20 });
+
+  const glareBackground = useTransform([glareX, glareY], ([gx, gy]: number[]) =>
+    `radial-gradient(circle 300px at ${gx}% ${gy}%, rgba(255,255,255,0.9), transparent 60%)`
+  );
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const px = (e.clientX - rect.left) / rect.width;
+    const py = (e.clientY - rect.top) / rect.height;
+
+    rotateXRaw.set((0.5 - py) * 35);
+    rotateYRaw.set((px - 0.5) * 35);
+    glareX.set(px * 100);
+    glareY.set(py * 100);
+    glareOpacity.set(1);
+  };
+
+  const handleLeave = () => {
+    rotateXRaw.set(0);
+    rotateYRaw.set(0);
+    glareOpacity.set(0);
+  };
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      onClick={onToggle}
+      whileHover={{ scale: 1.015, zIndex: 50 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      style={{ rotateX, rotateY, transformStyle: 'preserve-3d', transformPerspective: 1000 }}
+      className="relative w-full rounded-[2rem] bg-gradient-to-br from-white/50 to-white/10 backdrop-blur-xl border border-white/70 shadow-[0_20px_50px_-15px_rgba(0,10,40,0.06)] overflow-hidden cursor-pointer"
+    >
+      <motion.div
+        className="absolute inset-0 pointer-events-none z-30 mix-blend-overlay rounded-[2rem]"
+        style={{ opacity: glareOpacity, background: glareBackground }}
+      />
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[#0066FF]/5 rounded-full blur-2xl pointer-events-none" />
+
+      <div className="relative z-10 p-6 sm:p-8" style={{ transform: 'translateZ(30px)' }}>
+        <div className="flex items-center justify-between gap-4">
+          <h4 className="text-base sm:text-lg font-black text-[#1D1D1F] tracking-tight leading-snug">
+            {question}
+          </h4>
+          <motion.div
+            animate={{ rotate: isOpen ? 180 : 0 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+            className="w-9 h-9 shrink-0 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-sm border border-white/60"
+          >
+            <ChevronDown className="w-4 h-4 text-[#0F67FF]" />
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={false}
+          animate={{ height: isOpen ? 'auto' : 0, opacity: isOpen ? 1 : 0 }}
+          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          className="overflow-hidden"
+        >
+          <p className="text-sm text-[#86868B] leading-relaxed font-medium pt-4">
+            {answer}
+          </p>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+};
 const MobileCinematicFeatureCard = ({ title, desc, icon }: { title: string, desc: string, icon: React.ReactNode }) => {
   const ref = useRef<HTMLDivElement>(null);
   const rotateXRaw = useMotionValue(0);
@@ -441,6 +532,38 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenConsultati
   
   const [mousePos, setMousePos] = useState({ normX: 0, normY: 0, rawX: -1000, rawY: -1000 });
   const [isHovering, setIsHovering] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+
+  const FAQS = [
+    {
+      question: 'How is Entice HR Solutions different from a traditional recruitment agency?',
+      answer: 'We combine AI-powered candidate sourcing with dedicated human recruiters and full statutory payroll management, so you get one accountable partner instead of juggling separate vendors for hiring, payroll, and compliance.',
+    },
+    {
+      question: 'How quickly can you deliver shortlisted candidates?',
+      answer: 'Most roles receive a calibrated shortlist of 3–5 pre-vetted candidates within 48 hours, backed by a 20M+ candidate database and AI-driven matching that screens for technical fit and culture alignment.',
+    },
+    {
+      question: "What happens if a placed candidate doesn't work out?",
+      answer: "Every hire is covered by our 90-day free replacement guarantee, so you're never stuck absorbing the cost or lost time of a bad fit.",
+    },
+    {
+      question: 'Do you handle statutory compliance and payroll, or just recruitment?',
+      answer: 'Both. We manage end-to-end payroll processing, PF, ESI, professional tax, and POSH compliance alongside recruitment, so your HR operations stay audit-proof without needing an in-house team.',
+    },
+    {
+      question: 'Does partnering with Entice HR require heavy retainers or fixed costs?',
+      answer: 'Not at all. We operate on a model of zero fixed payroll overhead. You only pay for actual hires made, or you can opt for straightforward, scalable monthly tiers for our ongoing payroll and compliance management. This keeps your operational capital highly agile.',
+    },
+    {
+      question: 'How do I get started?',
+      answer: "Book a free 15-minute strategy call with our team. We'll map your hiring or payroll needs and propose a plan with no upfront commitment required.",
+    },
+    {
+      question:'Can you fully replace the need for an in-house HR department?',
+      answer:'Absolutely. Our Virtual HR services and Complete Outsourcing Squads act as a direct extension of your company. We provide everything from dedicated Virtual HR Managers to Virtual CHRO support, seamlessly handling onboarding, retention tracking, and payroll so your leadership can focus purely on scaling the business.',
+    }
+  ];
 
   useEffect(() => {
     const handleResize = () => {};
@@ -951,6 +1074,33 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate, onOpenConsultati
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FREQUENTLY ASKED QUESTIONS */}
+        <section className="relative py-16 md:py-24 px-4 sm:px-8 max-w-4xl mx-auto z-10">
+          <div className="text-center max-w-2xl mx-auto mb-12 flex flex-col gap-4">
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.25em] text-[#0066FF]">
+              FAQ
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-black text-[#1D1D1F] tracking-tight drop-shadow-sm">
+              Common Questions
+            </h2>
+            <p className="text-sm sm:text-base text-[#86868B] leading-relaxed">
+              Everything you need to know before partnering with us. Don't see your question here? Reach out and we'll answer it directly.
+            </p>
+          </div>
+
+          <div className="flex flex-col gap-4">
+            {FAQS.map((faq, idx) => (
+              <FAQCard
+                key={idx}
+                question={faq.question}
+                answer={faq.answer}
+                isOpen={openFaqIndex === idx}
+                onToggle={() => setOpenFaqIndex(openFaqIndex === idx ? null : idx)}
+              />
             ))}
           </div>
         </section>
