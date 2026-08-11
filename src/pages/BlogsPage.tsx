@@ -55,12 +55,21 @@ const TiltBlogCard: React.FC<{ post: BlogPost; idx: number; onClick: () => void 
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`Read article: ${post.title}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       style={{
         rotateX,
         rotateY,
         transformPerspective: 1200,
       }}
-      className="group relative flex flex-col justify-between w-full h-full p-6 rounded-[2.25rem] text-white shadow-xl shadow-[#0066FF]/20 hover:shadow-[0_30px_70px_-15px_rgba(15,103,255,0.4)] transition-shadow duration-500 cursor-pointer border border-white/10"
+      className="group relative flex flex-col justify-between w-full h-full p-6 rounded-[2.25rem] text-white shadow-xl shadow-[#0066FF]/20 hover:shadow-[0_30px_70px_-15px_rgba(15,103,255,0.4)] transition-shadow duration-500 cursor-pointer border border-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0F67FF]"
     >
       {/* Background Wrapper (Glossy Blue Overlay) */}
       <div 
@@ -285,6 +294,7 @@ export const BlogsPage: React.FC = () => {
 
               <button 
                 onClick={() => setActiveArticle(null)}
+                aria-label="Close article"
                 className="absolute top-4 right-4 md:top-6 md:right-6 p-2 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors z-50 shadow-sm border border-white/20"
               >
                 <X className="w-5 h-5" />
