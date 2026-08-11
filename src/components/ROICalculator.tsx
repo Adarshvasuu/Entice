@@ -278,6 +278,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onOpenConsultation
                             const val = e.target.value;
                             setEmployees(val === '' ? '' : parseInt(val, 10));
                           }}
+                          aria-label="Team size in employees"
                           className="w-14 text-right text-lg font-bold text-[#0F67FF] bg-transparent outline-none tabular-nums"
                         />
                         <span className="text-xs text-[#1D1D1F]/50 font-semibold">Emp</span>
@@ -290,6 +291,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onOpenConsultation
                       step="5"
                       value={numericEmployees}
                       onChange={(e) => setEmployees(parseInt(e.target.value, 10))}
+                      aria-label="Team size slider, 1 to 500 employees"
                       className="glass-slider-mobile"
                       style={{ background: getMobileSliderFill(numericEmployees, 1, 500) }}
                     />
@@ -316,6 +318,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onOpenConsultation
                             const val = e.target.value;
                             setAvgSalary(val === '' ? '' : parseInt(val, 10));
                           }}
+                          aria-label="Average salary in Indian Rupees"
                           className="w-24 text-right text-lg font-bold text-[#0F67FF] bg-transparent outline-none tabular-nums"
                         />
                       </div>
@@ -327,6 +330,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onOpenConsultation
                       step="50000"
                       value={numericSalary}
                       onChange={(e) => setAvgSalary(parseInt(e.target.value, 10))}
+                      aria-label="Average salary slider, 2 lakh to 25 lakh rupees"
                       className="glass-slider-mobile"
                       style={{ background: getMobileSliderFill(numericSalary, 200000, 2500000) }}
                     />
@@ -418,6 +422,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onOpenConsultation
                             const val = e.target.value;
                             setEmployees(val === '' ? '' : parseInt(val, 10));
                           }}
+                          aria-label="Team size in employees"
                           className="w-16 text-right text-2xl font-bold text-[#0F67FF] bg-transparent outline-none tabular-nums tracking-tight"
                         />
                         <span className="text-sm text-[#1D1D1F]/50 font-semibold">Emp</span>
@@ -430,6 +435,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onOpenConsultation
                       step="5"
                       value={numericEmployees}
                       onChange={(e) => setEmployees(parseInt(e.target.value, 10))}
+                      aria-label="Team size slider, 1 to 500 employees"
                       className="glass-slider"
                       style={{ background: getSliderFill(numericEmployees, 1, 500) }}
                     />
@@ -456,6 +462,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onOpenConsultation
                             const val = e.target.value;
                             setAvgSalary(val === '' ? '' : parseInt(val, 10));
                           }}
+                          aria-label="Average salary in Indian Rupees"
                           className="w-32 text-right text-2xl font-bold text-[#0F67FF] bg-transparent outline-none tabular-nums tracking-tight"
                         />
                       </div>
@@ -467,6 +474,7 @@ export const ROICalculator: React.FC<ROICalculatorProps> = ({ onOpenConsultation
                       step="50000"
                       value={numericSalary}
                       onChange={(e) => setAvgSalary(parseInt(e.target.value, 10))}
+                      aria-label="Average salary slider, 2 lakh to 25 lakh rupees"
                       className="glass-slider"
                       style={{ background: getSliderFill(numericSalary, 200000, 2500000) }}
                     />
