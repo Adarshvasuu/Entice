@@ -13,7 +13,8 @@ export const COMPANY_DETAILS = {
     instagramHandle: '@entice_hr',
     linkedin: 'https://linkedin.com/company/entice-hr-solutions',
     twitter: 'https://x.com/EnticeInnov',
-    twitterHandle: '@EnticeInnov'
+    twitterHandle: '@EnticeInnov',
+    facebook: 'https://www.facebook.com/profile.php?id=61593312836008',
   }
 };
 
