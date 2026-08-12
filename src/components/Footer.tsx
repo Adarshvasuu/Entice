@@ -1,5 +1,5 @@
 import React from 'react';
-import { Instagram, Linkedin, Twitter, MapPin, Phone, Mail, Send } from 'lucide-react';
+import { Instagram, Linkedin, Twitter, Facebook, MapPin, Phone, Mail, Send } from 'lucide-react';
 import { Logo } from './Logo';
 import { PageType } from '../types';
 import { COMPANY_DETAILS } from '../data/content';
@@ -60,6 +60,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#0066FF] transition-colors shadow-sm border border-white/10 backdrop-blur-sm"
               >
                 <Twitter className="w-4 h-4 text-white" />
+              </a>
+              <a 
+                href={COMPANY_DETAILS.socials.facebook} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                aria-label="Follow Entice HR Solutions on Facebook"
+                className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-[#0066FF] transition-colors shadow-sm border border-white/10 backdrop-blur-sm"
+              >
+                <Facebook className="w-4 h-4 text-white" />
               </a>
             </div>
           </div>
