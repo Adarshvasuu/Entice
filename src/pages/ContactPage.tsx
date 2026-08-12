@@ -475,6 +475,16 @@ export const ContactPage: React.FC = () => {
                         <Twitter className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-300" />
                         <span>{COMPANY_DETAILS.socials.twitterHandle}</span>
                       </a>
+
+                      <a 
+                        href={COMPANY_DETAILS.socials.facebook} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="px-3 sm:px-4 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl bg-white/10 border border-white/20 hover:bg-white/20 text-white transition-all shadow-sm flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-xs font-semibold backdrop-blur-md"
+                      >
+                        <Facebook className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400" />
+                        <span>Facebook</span>
+                      </a>
                     </div>
                   </div>
                 </div>
