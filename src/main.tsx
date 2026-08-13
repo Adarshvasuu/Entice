@@ -1,13 +1,12 @@
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
+import React from 'react';
+import { hydrateRoot, createRoot } from 'react-dom/client';
 import App from './App.tsx';
-import {ErrorBoundary} from './components/ErrorBoundary.tsx';
 import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
-  </StrictMode>,
-);
+const rootElement = document.getElementById('root') as HTMLElement;
+
+if (rootElement.hasChildNodes()) {
+  hydrateRoot(rootElement, <App />);
+} else {
+  createRoot(rootElement).render(<App />);
+}
