@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "postbuild": "react-snap",
     "preview": "vite preview",
     "lint": "tsc --noEmit"
   },
@@ -32,12 +31,5 @@
     "esbuild@0.25.12": true,
     "fsevents@2.3.3": true,
     "puppeteer@1.20.0": true
-  },
-  "reactSnap": {
-    "source": "dist",
-    "minifyHtml": {
-      "collapseWhitespace": false,
-      "removeComments": false
-    }
   }
 }
