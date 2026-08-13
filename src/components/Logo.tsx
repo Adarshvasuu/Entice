@@ -8,7 +8,7 @@ interface LogoProps {
 }
 
 export const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', onClick, variant = 'dark' }) => {
-  const heightClass = size === 'sm' ? 'h-12' : size === 'lg' ? 'h-20' : 'h-14';
+  const heightClass = size === 'sm' ? 'h-12' : size === 'lg' ? 'h-20' : 'h-9 sm:h-14';
   // 'light' = white logo, used over the dark hero background
   // 'dark'  = blue logo, used over light/white backgrounds (scrolled nav, other pages)
   const src = variant === 'light' ? '/logo/entice-logo-white.png' : '/logo/entice-logo-blue.png';
